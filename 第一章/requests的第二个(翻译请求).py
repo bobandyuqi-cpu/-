@@ -3,20 +3,19 @@ import requests
 url = "https://fanyi.baidu.com/sug"
 
 print("=== 百度翻译持续查询工具 ===")
-print("💡 输入 'q' 或 'quit' 退出程序\n")
+print("💡 输入 'q'退出程序\n")
 
 while True:
     s = input("请输入要查询的单词: ").strip()
 
-    # 退出机制
-    if s.lower() in ('q', 'quit', 'exit'):
-        print("👋 已退出，再见！")
-        break
-
-    # 空输入检查
     if not s:
         print("⚠️ 输入不能为空，请重新输入\n")
         continue
+
+    # 退出机制
+    if s.lower() in ('q'):
+        print("👋 已退出，再见！")
+        break
 
     try:
         resp = requests.post(url, data={"kw": s}, timeout=5)
