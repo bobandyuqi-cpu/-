@@ -6,7 +6,7 @@ print("=== 百度翻译持续查询工具 ===")
 print("💡 输入 'q'退出程序\n")
 
 while True:
-    s = input("请输入要查询的单词: ").strip()
+    s = input("请输入要查询的单词或中文: ").strip()
 
     if not s:
         print("⚠️ 输入不能为空，请重新输入\n")

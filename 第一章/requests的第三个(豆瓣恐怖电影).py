@@ -96,6 +96,7 @@ def fetch_douban_top_list(start: int = 0, limit: int = l) -> List[Dict[str, Any]
     try:
         resp = requests.get(url, params=params, headers=headers, timeout=10)
         resp.raise_for_status()  # 非2xx状态码自动抛异常
+        resp.close()  # 十分重要等一下把我检测到了
     except requests.exceptions.Timeout:
         print("⏰ 请求超时，请检查网络")
         return []
