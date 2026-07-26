@@ -23,11 +23,11 @@ with open("top250.csv","w",newline='',encoding="utf-8") as f:#必须加 newline=
         obj=re.compile(r'<li>.*?<span class="title">(?P<name>.*?)</span>.*?<div class="bd">.*?<br>(?P<year>.*?)&nbsp;/&nbsp.*?v:average">(?P<grade>.*?)</span>',re.S)
         date=obj.finditer(page_content)
         if b==0:
-                csvwriter.writerow(["电影名","年份","评分"])
+                csvwriter.writerow(["电影名","年份","评分"])#writerow写入列,要用字典
         for i in date:
-            dic =i.groupdict()
-            dic['year']=dic['year'].strip()
-            csvwriter.writerow(dic.values())
+            dic =i.groupdict()#以字典的形式输入,顺序按照我正则的顺序
+            dic['year']=dic['year'].strip()#对年份空白字符的数据处理
+            csvwriter.writerow(dic.values())#利用对象写入处理好的数据
         print(f"over{a//25}")
-        b=b+1
+        b=b+1#完成对表头的数据的填写
 req.close()
