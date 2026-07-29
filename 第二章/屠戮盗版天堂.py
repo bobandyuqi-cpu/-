@@ -1,6 +1,7 @@
 import requests
 import re
 import csv
+import time
 a=0
 url='https://www.dygod.vip/'
 req=requests.get(url)#有时候会要vertify=False才可以过https验证
@@ -25,10 +26,14 @@ with open("2026新电影链接.csv","w",encoding="utf-8",newline='') as f:
         child_req=requests.get(item)
         child_req.encoding="gb2312"
         k = obj3.search(child_req.text)
+        print(k.group('ap'))
+        print(k.group('ur'))
         dic=k.groupdict()
         writer.writerow(dic.values())
         a=a+1
         print(f"成功爬取{a}部")
+        print("-"*50)
+        time.sleep(1)
 req.close()
 print("over")
 
