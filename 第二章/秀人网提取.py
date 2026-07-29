@@ -13,7 +13,7 @@ headers = {
     "X-Requested-With": "XMLHttpRequest",
 }
 api_url = "https://www.xiurenlu.com/tools/bohe-gallery-api.php"
-SAVE_DIR = r"D:\Users\bobandyuqi\Desktop\爬虫图片"
+SAVE_DIR = r"D:\Users\bobandyuqi\Desktop\爬虫图片\秀人网"
 
 
 def safe_filename(name):
