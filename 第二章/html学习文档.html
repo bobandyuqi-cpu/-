@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML 学习文档</title>
+    <style>
+        /* ===== 全局样式 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.8;
+            padding: 20px;
+        }
+        /* ===== 容器 ===== */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 40px 50px;
+        }
+        /* ===== 标题 ===== */
+        h1 {
+            font-size: 32px;
+            color: #e74c3c;
+            text-align: center;
+            border-bottom: 3px solid #e74c3c;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            font-size: 24px;
+            color: #2c3e50;
+            border-left: 5px solid #3498db;
+            padding-left: 12px;
+            margin: 35px 0 15px;
+        }
+        h3 {
+            font-size: 20px;
+            color: #2980b9;
+            margin: 25px 0 10px;
+        }
+        /* ===== 代码 ===== */
+        code {
+            background: #ecf0f1;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #c0392b;
+        }
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 16px 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 15px 0;
+        }
+        pre code {
+            background: none;
+            color: #ecf0f1;
+            padding: 0;
+        }
+        /* ===== 提示框 ===== */
+        .tip {
+            background: #eaf2f8;
+            border-left: 5px solid #3498db;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+        .tip::before {
+            content: "💡 提示：";
+            font-weight: bold;
+            color: #2980b9;
+        }
+        /* ===== 表格 ===== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 14px;
+            text-align: left;
+        }
+        th {
+            background: #3498db;
+            color: #fff;
+        }
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        /* ===== 示例盒子 ===== */
+        .demo-box {
+            border: 2px dashed #3498db;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            background: #fafbfc;
+        }
+        .demo-box p {
+            margin: 5px 0;
+        }
+        /* ===== 页脚 ===== */
+        .footer {
+            text-align: center;
+            color: #95a5a6;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ecf0f1;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ============================================================ -->
+    <h1>🌐 HTML 入门学习文档</h1>
+    <!-- ============================================================ -->
+
+    <p style="text-align:center;font-size:18px;color:#7f8c8d;">
+        HTML —— 网页的骨架，带你从零开始构建自己的网页！
+    </p>
+
+    <!-- ============================================================ -->
+    <h2>一、什么是 HTML？</h2>
+    <!-- ============================================================ -->
+
+    <p><strong>HTML</strong>（HyperText Markup Language，超文本标记语言）是创建网页的标准语言。</p>
+    <ul>
+        <li>它<strong>不是</strong>编程语言，而是一种<strong>标记语言</strong></li>
+        <li>它用"<strong>标签</strong>"来描述网页的结构和内容</li>
+        <li>浏览器读取 HTML 文件，将其渲染成我们看到的网页</li>
+    </ul>
+
+    <div class="tip">
+        可以把 HTML 想象成盖房子的"砖块"——它搭建了网页的基本结构。<br>
+        而 CSS 是"装修"（美化外观），JavaScript 是"水电"（实现交互功能）。
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>二、HTML 的基本结构</h2>
+    <!-- ============================================================ -->
+
+    <p>每个 HTML 文件都有固定的骨架：</p>
+
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="zh-CN"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;我的第一个网页&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    这里写网页的内容
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <table>
+        <tr>
+            <th>标签</th>
+            <th>说明</th>
+        </tr>
+        <tr>
+            <td><code>&lt;!DOCTYPE html&gt;</code></td>
+            <td>文档类型声明，告诉浏览器这是 HTML5 文档</td>
+        </tr>
+        <tr>
+            <td><code>&lt;html&gt;</code></td>
+            <td>HTML 文档的根元素，所有内容都放在里面</td>
+        </tr>
+        <tr>
+            <td><code>&lt;head&gt;</code></td>
+            <td>头部区域，放元数据（标题、编码、样式等）</td>
+        </tr>
+        <tr>
+            <td><code>&lt;body&gt;</code></td>
+            <td>主体区域，放所有可见的网页内容</td>
+        </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>三、常用标签</h2>
+    <!-- ============================================================ -->
+
+    <h3>1. 标题标签</h3>
+    <p>HTML 提供了 6 级标题，从 <code>&lt;h1&gt;</code> 到 <code>&lt;h6&gt;</code>，字号逐级递减。</p>
+    <pre><code>&lt;h1&gt;一级标题&lt;/h1&gt;
+&lt;h2&gt;二级标题&lt;/h2&gt;
+&lt;h3&gt;三级标题&lt;/h3&gt;
+&lt;h4&gt;四级标题&lt;/h4&gt;
+&lt;h5&gt;五级标题&lt;/h5&gt;
+&lt;h6&gt;六级标题&lt;/h6&gt;</code></pre>
+
+    <div class="demo-box">
+        <h1 style="font-size:28px;margin:0;">一级标题</h1>
+        <h2 style="font-size:24px;margin:0;">二级标题</h2>
+        <h3 style="font-size:20px;margin:0;">三级标题</h3>
+        <h4 style="font-size:16px;margin:0;">四级标题</h4>
+        <h5 style="font-size:14px;margin:0;">五级标题</h5>
+        <h6 style="font-size:12px;margin:0;">六级标题</h6>
+    </div>
+
+    <div class="tip">
+        一个页面通常只有一个 <code>&lt;h1&gt;</code>，用于页面的主标题（有利于 SEO）。逐级使用标题，不要跳级。
+    </div>
+
+    <!-- ------------------------------------------------------------ -->
+    <h3>2. 段落与文本</h3>
+    <pre><code>&lt;p&gt;这是一个段落。&lt;/p&gt;
+段落会自动换行，段落之间有空行。
+
+&lt;b&gt;粗体&lt;/b&gt;  ——  &lt;strong&gt;强调（也是粗体）&lt;/strong&gt;
+&lt;i&gt;斜体&lt;/i&gt;  ——  &lt;em&gt;强调（也是斜体）&lt;/em&gt;
+&lt;u&gt;下划线&lt;/u&gt;
+&lt;s&gt;删除线&lt;/s&gt;
+&lt;br&gt;        &lt;!-- 换行（自闭合标签） --&gt;
+&lt;hr&gt;        &lt;!-- 水平分割线 --&gt;</code></pre>
+
+    <div class="demo-box">
+        <p>这是一个段落。段落会自动换行，段落之间有空行。</p>
+        <p><b>粗体</b> — <strong>强调（也是粗体）</strong></p>
+        <p><i>斜体</i> — <em>强调（也是斜体）</em></p>
+        <p><u>下划线</u> — <s>删除线</s></p>
+        <p>这是第一行<br>这是第二行（用 br 换行）</p>
+        <hr>
+        <p>上面有一条水平分割线</p>
+    </div>
+
+    <!-- ------------------------------------------------------------ -->
+    <h3>3. 链接</h3>
+    <p>使用 <code>&lt;a&gt;</code> 标签创建超链接：</p>
+    <pre><code>&lt;a href="https://www.baidu.com"&gt;打开百度&lt;/a&gt;
+&lt;a href="https://www.baidu.com" target="_blank"&gt;新窗口打开百度&lt;/a&gt;
+&lt;a href="#top"&gt;回到顶部（锚点链接）&lt;/a&gt;
+&lt;a href="mailto:example@qq.com"&gt;发送邮件&lt;/a&gt;</code></pre>
+
+    <div class="demo-box">
+        <p><a href="#">这是一个链接示例</a></p>
+        <p><a href="#" target="_blank">新窗口打开（示例）</a></p>
+    </div>
+
+    <table>
+        <tr>
+            <th>属性</th>
+            <th>说明</th>
+        </tr>
+        <tr><td><code>href</code></td><td>链接的目标地址（必填）</td></tr>
+        <tr><td><code>target="_blank"</code></td><td>在新标签页中打开</td></tr>
+        <tr><td><code>title</code></td><td>鼠标悬停时显示的提示文字</td></tr>
+    </table>
+
+    <!-- ------------------------------------------------------------ -->
+    <h3>4. 图片</h3>
+    <p>使用 <code>&lt;img&gt;</code> 标签插入图片（自闭合标签）：</p>
+    <pre><code>&lt;img src="图片地址" alt="图片描述" width="300"&gt;</code></pre>
+
+    <div class="demo-box">
+        <img src="https://via.placeholder.com/300x150/3498db/fff?text=示例图片" alt="示例图片" style="border-radius:6px;">
+    </div>
+
+    <table>
+        <tr>
+            <th>属性</th>
+            <th>说明</th>
+        </tr>
+        <tr><td><code>src</code></td><td>图片路径（必填）</td></tr>
+        <tr><td><code>alt</code></td><td>图片加载失败时显示的替代文字（必填，有助于无障碍）</td></tr>
+        <tr><td><code>width</code> / <code>height</code></td><td>设置图片宽高（单位 px）</td></tr>
+    </table>
+
+    <div class="tip">
+        <code>alt</code> 属性很重要！不仅方便视障用户读屏软件识别，图片加载不出来时也能让用户知道图片内容。
+    </div>
+
+    <!-- ------------------------------------------------------------ -->
+    <h3>5. 列表</h3>
+
+    <p><strong>无序列表</strong>（用圆点标记）：</p>
+    <pre><code>&lt;ul&gt;
+    &lt;li&gt;苹果&lt;/li&gt;
+    &lt;li&gt;香蕉&lt;/li&gt;
+    &lt;li&gt;橙子&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+    <div class="demo-box">
+        <ul>
+            <li>苹果</li>
+            <li>香蕉</li>
+            <li>橙子</li>
+        </ul>
+    </div>
+
+    <p><strong>有序列表</strong>（用数字标记）：</p>
+    <pre><code>&lt;ol&gt;
+    &lt;li&gt;第一步：打开冰箱门&lt;/li&gt;
+    &lt;li&gt;第二步：把大象放进冰箱&lt;/li&gt;
+    &lt;li&gt;第三步：关上冰箱门&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+
+    <div class="demo-box">
+        <ol>
+            <li>第一步：打开冰箱门</li>
+            <li>第二步：把大象放进冰箱</li>
+            <li>第三步：关上冰箱门</li>
+        </ol>
+    </div>
+
+    <!-- ------------------------------------------------------------ -->
+    <h3>6. 表格</h3>
+    <pre><code>&lt;table&gt;
+    &lt;tr&gt;
+        &lt;th&gt;姓名&lt;/th&gt;   &lt;!-- 表头 --&gt;
+        &lt;th&gt;年龄&lt;/th&gt;
+        &lt;th&gt;城市&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;张三&lt;/td&gt;   &lt;!-- 单元格 --&gt;
+        &lt;td&gt;25&lt;/td&gt;
+        &lt;td&gt;北京&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;李四&lt;/td&gt;
+        &lt;td&gt;30&lt;/td&gt;
+        &lt;td&gt;上海&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+
+    <div class="demo-box">
+        <table style="border:1px solid #ddd;">
+            <tr><th>姓名</th><th>年龄</th><th>城市</th></tr>
+            <tr><td>张三</td><td>25</td><td>北京</td></tr>
+            <tr><td>李四</td><td>30</td><td>上海</td></tr>
+        </table>
+    </div>
+
+    <!-- ------------------------------------------------------------ -->
+    <h3>7. 表单</h3>
+    <p>表单用于收集用户输入：</p>
+    <pre><code>&lt;form&gt;
+    &lt;label&gt;用户名：&lt;/label&gt;
+    &lt;input type="text" name="username" placeholder="请输入用户名"&gt;
+
+    &lt;label&gt;密码：&lt;/label&gt;
+    &lt;input type="password" name="password" placeholder="请输入密码"&gt;
+
+    &lt;label&gt;性别：&lt;/label&gt;
+    &lt;input type="radio" name="gender" value="male"&gt; 男
+    &lt;input type="radio" name="gender" value="female"&gt; 女
+
+    &lt;label&gt;爱好：&lt;/label&gt;
+    &lt;input type="checkbox" name="hobby" value="reading"&gt; 阅读
+    &lt;input type="checkbox" name="hobby" value="sports"&gt; 运动
+
+    &lt;label&gt;城市：&lt;/label&gt;
+    &lt;select name="city"&gt;
+        &lt;option value="beijing"&gt;北京&lt;/option&gt;
+        &lt;option value="shanghai"&gt;上海&lt;/option&gt;
+    &lt;/select&gt;
+
+    &lt;textarea rows="4" placeholder="留言内容"&gt;&lt;/textarea&gt;
+
+    &lt;button type="submit"&gt;提交&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+    <div class="demo-box">
+        <form onsubmit="return false;">
+            <p><label>用户名：</label><input type="text" placeholder="请输入用户名" style="padding:4px 8px;border:1px solid #ccc;border-radius:4px;"></p>
+            <p><label>密码：</label><input type="password" placeholder="请输入密码" style="padding:4px 8px;border:1px solid #ccc;border-radius:4px;"></p>
+            <p>
+                <label>性别：</label>
+                <label><input type="radio" name="gender"> 男</label>
+                <label><input type="radio" name="gender"> 女</label>
+            </p>
+            <p>
+                <label>爱好：</label>
+                <label><input type="checkbox"> 阅读</label>
+                <label><input type="checkbox"> 运动</label>
+            </p>
+            <p>
+                <label>城市：</label>
+                <select style="padding:4px 8px;border:1px solid #ccc;border-radius:4px;">
+                    <option>北京</option>
+                    <option>上海</option>
+                </select>
+            </p>
+            <p><textarea rows="3" cols="30" placeholder="留言内容" style="padding:8px;border:1px solid #ccc;border-radius:4px;"></textarea></p>
+            <p><button type="submit" style="padding:8px 20px;background:#3498db;color:#fff;border:none;border-radius:4px;cursor:pointer;">提交</button></p>
+        </form>
+    </div>
+
+    <table>
+        <tr><th>input 类型</th><th>说明</th></tr>
+        <tr><td><code>text</code></td><td>单行文本</td></tr>
+        <tr><td><code>password</code></td><td>密码框（输入内容被隐藏）</td></tr>
+        <tr><td><code>radio</code></td><td>单选框</td></tr>
+        <tr><td><code>checkbox</code></td><td>复选框</td></tr>
+        <tr><td><code>email</code></td><td>邮箱（自动校验格式）</td></tr>
+        <tr><td><code>number</code></td><td>数字</td></tr>
+        <tr><td><code>file</code></td><td>文件上传</td></tr>
+        <tr><td><code>date</code></td><td>日期选择器</td></tr>
+        <tr><td><code>color</code></td><td>颜色选择器</td></tr>
+    </table>
+
+    <!-- ------------------------------------------------------------ -->
+    <h3>8. 区块与语义化标签</h3>
+    <pre><code>&lt;div&gt;  块级容器（无特殊含义，最常用）&lt;/div&gt;
+&lt;span&gt; 行内容器（用于包裹一行中的部分文字）&lt;/span&gt;
+
+&lt;!-- HTML5 语义化标签 --&gt;
+&lt;header&gt;  页面或区块的头部&lt;/header&gt;
+&lt;nav&gt;     导航栏&lt;/nav&gt;
+&lt;main&gt;    页面主体内容&lt;/main&gt;
+&lt;section&gt; 一个独立的区块&lt;/section&gt;
+&lt;article&gt; 一篇文章或独立内容&lt;/article&gt;
+&lt;aside&gt;   侧边栏（次要内容）&lt;/aside&gt;
+&lt;footer&gt;  页面或区块的底部&lt;/footer&gt;</code></pre>
+
+    <div class="tip">
+        语义化标签让代码更容易阅读和维护，也有利于搜索引擎优化（SEO）和屏幕阅读器识别。
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>四、HTML 注释</h2>
+    <!-- ============================================================ -->
+
+    <p>注释不会被浏览器显示，用于给开发者做说明：</p>
+    <pre><code>&lt;!-- 这是注释，不会显示在页面上 --&gt;
+&lt;!--
+    多行注释
+    也是可以的
+--&gt;</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>五、块级元素 vs 行内元素</h2>
+    <!-- ============================================================ -->
+
+    <table>
+        <tr><th>类型</th><th>特点</th><th>常见标签</th></tr>
+        <tr>
+            <td><strong>块级元素</strong></td>
+            <td>独占一行，宽度默认占满父容器</td>
+            <td><code>div</code> <code>p</code> <code>h1~h6</code> <code>ul</code> <code>ol</code> <code>table</code> <code>form</code></td>
+        </tr>
+        <tr>
+            <td><strong>行内元素</strong></td>
+            <td>不换行，宽度由内容决定</td>
+            <td><code>span</code> <code>a</code> <code>img</code> <code>b</code> <code>i</code> <code>strong</code> <code>em</code></td>
+        </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>六、快速入门示例</h2>
+    <!-- ============================================================ -->
+
+    <p>把下面这段代码复制到记事本，保存为 <code>index.html</code>，用浏览器打开即可看到效果：</p>
+
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="zh-CN"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;我的个人主页&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;h1&gt;欢迎来到我的个人主页！&lt;/h1&gt;
+
+    &lt;p&gt;你好！我是 &lt;strong&gt;小明&lt;/strong&gt;，一名前端学习者。&lt;/p&gt;
+
+    &lt;h2&gt;我的爱好&lt;/h2&gt;
+    &lt;ul&gt;
+        &lt;li&gt;编程 💻&lt;/li&gt;
+        &lt;li&gt;阅读 📚&lt;/li&gt;
+        &lt;li&gt;旅行 ✈️&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;h2&gt;联系我&lt;/h2&gt;
+    &lt;p&gt;
+        📧 邮箱：&lt;a href="mailto:xiaoming@example.com"&gt;xiaoming@example.com&lt;/a&gt;&lt;br&gt;
+        🌐 GitHub：&lt;a href="#" target="_blank"&gt;github.com/xiaoming&lt;/a&gt;
+    &lt;/p&gt;
+
+    &lt;hr&gt;
+    &lt;p&gt;© 2026 小明。保留所有权利。&lt;/p&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>七、学习资源推荐</h2>
+    <!-- ============================================================ -->
+
+    <ul>
+        <li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML" target="_blank">MDN Web 文档（最权威的 HTML 参考）</a></li>
+        <li><a href="https://www.runoob.com/html/html-tutorial.html" target="_blank">菜鸟教程 HTML</a></li>
+        <li><a href="https://www.w3school.com.cn/html/index.asp" target="_blank">W3School HTML 教程</a></li>
+    </ul>
+
+    <div class="tip">
+        <strong>学习建议：</strong>不要死记硬背标签，多用、多练！打开浏览器的"检查"（F12）功能，看看别人网页的 HTML 结构，是最好的学习方式。
+    </div>
+
+    <!-- ============================================================ -->
+    <div class="footer">
+        HTML 学习文档 &copy; 2026 — 祝学习愉快！🎉
+    </div>
+
+</div>
+
+</body>
+</html>
