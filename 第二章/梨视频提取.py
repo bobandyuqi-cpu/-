@@ -21,16 +21,21 @@ url,
 "user-agent":
 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36 Edg/150.0.0.0"
 }#referer防盗链,意思是该页面进入的源头链接,反爬措施之一
+
 resp=requests.get(url,headers=headers)
 obj=re.compile(r"<title>(?P<titel>.*?)-梨视频官网-Pear Video-梨网站</title>")
 for i in obj.finditer(resp.text):
     titel = i.group("titel")
 titel = safe_filename(titel)
+
 contid=url.split("_")[1]
+
 videpstatus=f"https://www.pearvideo.com/videoStatus.jsp?contId={contid}&mrd=0.1745515378849336"#mrd是随机数无效信息
+
 js=requests.get(videpstatus,headers=headers).json()
 # print(js)
 encrypt_=js["systemTime"]
+
 encrypt_url=js["videoInfo"]["videos"]["srcUrl"]
 # print(encrypt_url)
 # print(encrypt_)
@@ -39,9 +44,11 @@ encrypt_url=js["videoInfo"]["videos"]["srcUrl"]
 real_="cont-"+contid
 real_url=encrypt_url.replace(encrypt_,real_)
 print(real_url)
+
 if not os.path.exists(SAVE_DIR):
     os.makedirs(SAVE_DIR)#检查创建目录
 save_path = os.path.join(SAVE_DIR,f"{titel}.mp4")#拼接绝对路径
 with open(save_path,"wb") as f:#写入绝对路径
     f.write(requests.get(real_url,timeout=15).content)#以content二进制的形式写入
+
 print("视频已经下载")
