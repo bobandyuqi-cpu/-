@@ -4,7 +4,8 @@ import re
 import os
 import random
 import urllib.parse
-import concurrent.futures
+import asyncio
+import aiohttp
 
 session = requests.Session()
 headers = {
@@ -171,40 +172,57 @@ def list_recent_works(pages=3):
 
 
 
-def download_image(url, save_path, max_retries=3):
-    """下载单张图片，带重试"""
+async def download_image_async(session, url, save_path, max_retries=3):
+    """异步下载单张图片，带重试（aiohttp 版）"""
     for attempt in range(1, max_retries + 1):
         try:
-            resp = session.get(url, headers=headers, timeout=30)
-            if resp.status_code == 200:
-                with open(save_path, "wb") as f:
-                    f.write(resp.content)
-                return True
-            elif resp.status_code == 429:
-                wait = random.uniform(5, 10)
-                print(f"    [限流] 被限速，等待 {wait:.1f}s 后重试...")
-                time.sleep(wait)
-            else:
-                if attempt < max_retries:
-                    wait = random.uniform(2, 4)
-                    print(f"    [重试] 状态码 {resp.status_code}，{wait:.1f}s 后重试 ({attempt}/{max_retries})")
-                    time.sleep(wait)
+            async with session.get(url) as resp:
+                if resp.status == 200:
+                    content = await resp.read()
+                    with open(save_path, "wb") as f:
+                        f.write(content)
+                    return True
+                elif resp.status == 429:
+                    wait = random.uniform(5, 10)
+                    print(f"    [限流] 被限速，等待 {wait:.1f}s 后重试...")
+                    await asyncio.sleep(wait)
+                else:
+                    if attempt < max_retries:
+                        wait = random.uniform(2, 4)
+                        print(f"    [重试] 状态码 {resp.status}，{wait:.1f}s 后重试 ({attempt}/{max_retries})")
+                        await asyncio.sleep(wait)
         except Exception as e:
             if attempt < max_retries:
                 wait = random.uniform(3, 6)
                 print(f"    [重试] 异常: {e}，{wait:.1f}s 后重试 ({attempt}/{max_retries})")
-                time.sleep(wait)
+                await asyncio.sleep(wait)
     return False
 
 
-def download_one_task(args):
-    """单个下载任务（给线程池用）"""
-    url, save_path, idx, total = args
-    fname = os.path.basename(save_path)
-    print(f"  [{idx}/{total}] 下载中: {fname}")
-    ok = download_image(url, save_path)
-    print(f"  [{idx}/{total}] {'OK' if ok else '失败'}")
-    return ok
+async def download_one_async(session, semaphore, url, save_path, idx, total):
+    """单个协程下载任务：信号量限并发 + 错开请求防突刺"""
+    async with semaphore:
+        await asyncio.sleep(random.uniform(0.3, 0.5))  # 错开请求，防突刺
+        fname = os.path.basename(save_path)
+        print(f"  [{idx}/{total}] 下载中: {fname}")
+        ok = await download_image_async(session, url, save_path)
+        print(f"  [{idx}/{total}] {'OK' if ok else '失败'}")
+        return ok
+
+
+async def download_all_async(tasks):
+    """协程入口：把所有下载任务交给事件循环并发执行"""
+    semaphore = asyncio.Semaphore(MAX_WORKERS)  # 控制同时下载的协程数
+    # 把 requests 会话的 cookies 带给 aiohttp，保持 Cloudflare 认证
+    cookies = {c.name: c.value for c in session.cookies}
+    async with aiohttp.ClientSession(
+        cookies=cookies, headers=headers, timeout=aiohttp.ClientTimeout(total=30)
+    ) as sess:
+        results = await asyncio.gather(
+            *(download_one_async(sess, semaphore, url, path, idx, total)
+              for url, path, idx, total in tasks)
+        )
+    return sum(1 for r in results if r)
 
 
 def fetch_page_images(work_id, page, token):
@@ -429,7 +447,7 @@ def show_images(work_id, img_data, title="work"):
     for i, url in enumerate(items, 1):
         print(f"  {i + (current_page-1)*per_page}. {url}")
 
-    action = input(f"\n[回车] 下一页 | [d] 下载当前页 | [a] 下载全部({MAX_WORKERS}线程) | [s] 保存链接 | [b/q] 返回: ").strip().lower()
+    action = input(f"\n[回车] 下一页 | [d] 下载当前页 | [a] 下载全部({MAX_WORKERS}协程) | [s] 保存链接 | [b/q] 返回: ").strip().lower()
 
     if action in ("q", "b"):
         return
@@ -456,11 +474,11 @@ def show_images(work_id, img_data, title="work"):
         show_images(work_id, next_data, title=title)
 
 
-MAX_WORKERS = 3  # 并发下载数
+MAX_WORKERS = 3  # 并发下载数（协程信号量上限）
 
 
 def download_image_list(urls, save_dir, folder_name, start_index=0):
-    """并发下载一批图片（兼顾速度和防封）"""
+    """异步协程并发下载一批图片（用 asyncio 替代原来的线程池）"""
     os.makedirs(save_dir, exist_ok=True)
     total = len(urls)
     # 准备任务列表
@@ -470,18 +488,8 @@ def download_image_list(urls, save_dir, folder_name, start_index=0):
         save_path = os.path.join(save_dir, fname)
         tasks.append((url, save_path, i, total))
 
-    success = 0
-    # 用线程池并发下载，每提交一个间隔 0.3~0.5s 避免突刺
-    with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
-        futures = []
-        for task in tasks:
-            futures.append(executor.submit(download_one_task, task))
-            time.sleep(random.uniform(0.3, 0.5))  # 错开请求，防突刺
-
-        for future in concurrent.futures.as_completed(futures):
-            if future.result():
-                success += 1
-
+    # 单线程事件循环里并发下载，信号量控制同时下载数
+    success = asyncio.run(download_all_async(tasks))
     print(f"  -> 完成: {success}/{total} 张")
 
 
